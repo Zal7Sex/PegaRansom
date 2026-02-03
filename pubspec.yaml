@@ -1,5 +1,5 @@
 name: pega_ransom
-description: PegaRansom Application
+description: PegaRansom Security Application
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -11,8 +11,13 @@ dependencies:
     sdk: flutter
   permission_handler: ^13.6.0
   path_provider: ^2.1.2
-  dart:io:
   shared_preferences: ^2.2.2
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 
 flutter:
   uses-material-design: true
