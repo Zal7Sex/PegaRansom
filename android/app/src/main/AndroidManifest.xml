@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pegaransom.app">
     
     <!-- PERMISSIONS -->
@@ -15,8 +16,6 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    
-    <!-- BOOT RECEIVER PERMISSION -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     
     <application
@@ -26,9 +25,9 @@
         android:allowBackup="false"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/LaunchTheme">
+        android:theme="@style/LaunchTheme"
+        android:supportsRtl="true">
         
-        <!-- MAIN ACTIVITY -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -40,22 +39,38 @@
             android:showWhenLocked="true"
             android:turnScreenOn="true">
             
+            <!-- UNTUK ANDROID EMBEDDING V2 -->
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
+                
+            <meta-data
+                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+                android:resource="@drawable/launch_background" />
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-        <!-- BOOT RECEIVER (Untuk delete file saat reboot) -->
+        <!-- BOOT RECEIVER -->
         <receiver
-            android:name="com.pegaransom.app.BootReceiver"
+            android:name=".BootReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.REBOOT" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
         
+        <!-- WAJIB UNTUK V2 EMBEDDING -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+            
     </application>
 </manifest>
